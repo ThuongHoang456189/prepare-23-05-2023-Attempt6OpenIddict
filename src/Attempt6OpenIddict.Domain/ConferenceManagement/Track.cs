@@ -1,31 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace Attempt6OpenIddict.Conference
+namespace Attempt6OpenIddict.ConferenceManagement
 {
     public class Track : FullAuditedAggregateRoot<Guid>
     {
         public string Name { get; private set; }
         public Guid ConferenceId { get; private set; }
         public Conference Conference { get; private set; }
-        public string? SubmissionInstruction { get; private set; }
-        public string? SubmissionSettings { get; private set; }
-        public string? ConflictSettings { get; private set; }
-        public string? ReviewSettings { get; private set; }
-        public string? CameraReadySubmissionSettings { get; private set; }
-        public string? SubjectAreaRelevanceCoefficients { get; private set; }
+        public string? SubmissionInstruction { get; internal set; }
+        public string? SubmissionSettings { get; internal set; }
+        public string? ConflictSettings { get; internal set; }
+        public string? ReviewSettings { get; internal set; }
+        public string? CameraReadySubmissionSettings { get; internal set; }
+        public string? SubjectAreaRelevanceCoefficients { get; internal set; }
+
+        public ICollection<Incumbent> Incumbents { get; private set; }
 
         public Track(
         Guid id,
         string name,
         Guid conferenceId,
         string? submissionInstruction,
-        string submissionSettings,
-        string conflictSettings,
-        string reviewSettings,
-        string cameraReadySubmissionSettings,
-        string subjectAreaRelevanceCoefficients)
+        string? submissionSettings,
+        string? conflictSettings,
+        string? reviewSettings,
+        string? cameraReadySubmissionSettings,
+        string? subjectAreaRelevanceCoefficients)
             : base(id)  
         {
             SetName(name);
@@ -36,11 +40,13 @@ namespace Attempt6OpenIddict.Conference
             ReviewSettings = reviewSettings;
             CameraReadySubmissionSettings = cameraReadySubmissionSettings;
             SubjectAreaRelevanceCoefficients = subjectAreaRelevanceCoefficients;
+
+            Incumbents = new Collection<Incumbent>();
         }
 
         public Track SetName(string name)
         {
-            Name = Check.NotNullOrWhiteSpace(name, nameof(name), TrackConsts.MaxNameLength);
+            Name = Check.NotNullOrWhiteSpace(string.IsNullOrEmpty(name) ? name : name.Trim(), nameof(name), TrackConsts.MaxNameLength);
             return this;
         }
 

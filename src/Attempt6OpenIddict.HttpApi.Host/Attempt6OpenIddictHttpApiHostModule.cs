@@ -49,7 +49,7 @@ public class Attempt6OpenIddictHttpApiHostModule : AbpModule
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-        ConfigureConventionalControllers();
+        //ConfigureConventionalControllers();
         ConfigureAuthentication(context, configuration);
         ConfigureCache(configuration);
         ConfigureVirtualFileSystem(context);
@@ -88,13 +88,13 @@ public class Attempt6OpenIddictHttpApiHostModule : AbpModule
         }
     }
 
-    private void ConfigureConventionalControllers()
-    {
-        Configure<AbpAspNetCoreMvcOptions>(options =>
-        {
-            options.ConventionalControllers.Create(typeof(Attempt6OpenIddictApplicationModule).Assembly);
-        });
-    }
+    //private void ConfigureConventionalControllers()
+    //{
+    //    Configure<AbpAspNetCoreMvcOptions>(options =>
+    //    {
+    //        options.ConventionalControllers.Create(typeof(Attempt6OpenIddictApplicationModule).Assembly);
+    //    });
+    //}
 
     private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
     {

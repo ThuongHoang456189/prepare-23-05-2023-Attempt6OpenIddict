@@ -16,6 +16,7 @@ using Volo.Abp.TenantManagement.EntityFrameworkCore;
 namespace Attempt6OpenIddict.EntityFrameworkCore;
 
 [DependsOn(
+    typeof(Attempt6OpenIddictDomainSharedModule),
     typeof(Attempt6OpenIddictDomainModule),
     typeof(AbpIdentityEntityFrameworkCoreModule),
     typeof(AbpOpenIddictEntityFrameworkCoreModule),

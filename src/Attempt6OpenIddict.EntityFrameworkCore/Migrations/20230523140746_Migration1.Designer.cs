@@ -4,6 +4,7 @@ using Attempt6OpenIddict.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Attempt6OpenIddict.Migrations
 {
     [DbContext(typeof(Attempt6OpenIddictDbContext))]
-    partial class Attempt6OpenIddictDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230523140746_Migration1")]
+    partial class Migration1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,132 +180,6 @@ namespace Attempt6OpenIddict.Migrations
                     b.HasIndex("ConferenceId");
 
                     b.ToTable("ConferenceAccounts", (string)null);
-                });
-
-            modelBuilder.Entity("Attempt6OpenIddict.ConferenceManagement.ConferenceRole", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("DeleterId");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("DeletionTime");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<bool>("IsPC")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ConferenceRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Attempt6OpenIddict.ConferenceManagement.Incumbent", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<Guid>("ConferenceAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ConferenceRoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("DeleterId");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("DeletionTime");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<bool>("IsPrimaryContact")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<Guid?>("TrackId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ConferenceAccountId");
-
-                    b.HasIndex("ConferenceRoleId");
-
-                    b.HasIndex("TrackId");
-
-                    b.ToTable("Incumbents", (string)null);
                 });
 
             modelBuilder.Entity("Attempt6OpenIddict.ConferenceManagement.PaperStatus", b =>
@@ -2125,31 +2002,6 @@ namespace Attempt6OpenIddict.Migrations
                     b.Navigation("Conference");
                 });
 
-            modelBuilder.Entity("Attempt6OpenIddict.ConferenceManagement.Incumbent", b =>
-                {
-                    b.HasOne("Attempt6OpenIddict.ConferenceManagement.ConferenceAccount", "ConferenceAccount")
-                        .WithMany("Incumbents")
-                        .HasForeignKey("ConferenceAccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Attempt6OpenIddict.ConferenceManagement.ConferenceRole", "ConferenceRole")
-                        .WithMany("Incumbents")
-                        .HasForeignKey("ConferenceRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Attempt6OpenIddict.ConferenceManagement.Track", "Track")
-                        .WithMany("Incumbents")
-                        .HasForeignKey("TrackId");
-
-                    b.Navigation("ConferenceAccount");
-
-                    b.Navigation("ConferenceRole");
-
-                    b.Navigation("Track");
-                });
-
             modelBuilder.Entity("Attempt6OpenIddict.ConferenceManagement.PaperStatus", b =>
                 {
                     b.HasOne("Attempt6OpenIddict.ConferenceManagement.Conference", "Conference")
@@ -2319,21 +2171,6 @@ namespace Attempt6OpenIddict.Migrations
                     b.Navigation("PaperStatuses");
 
                     b.Navigation("Tracks");
-                });
-
-            modelBuilder.Entity("Attempt6OpenIddict.ConferenceManagement.ConferenceAccount", b =>
-                {
-                    b.Navigation("Incumbents");
-                });
-
-            modelBuilder.Entity("Attempt6OpenIddict.ConferenceManagement.ConferenceRole", b =>
-                {
-                    b.Navigation("Incumbents");
-                });
-
-            modelBuilder.Entity("Attempt6OpenIddict.ConferenceManagement.Track", b =>
-                {
-                    b.Navigation("Incumbents");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

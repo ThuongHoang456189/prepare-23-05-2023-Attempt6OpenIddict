@@ -2,14 +2,14 @@
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace Attempt6OpenIddict.Conference
+namespace Attempt6OpenIddict.ConferenceManagement
 {
     public class PaperStatus : FullAuditedAggregateRoot<Guid>
     {
         public string Name { get; private set; }
         public Guid? ConferenceId { get; private set; }
         public Conference? Conference { get; private set; }
-        public bool ReviewsVisibleToAuthor { get; private set; }
+        public bool ReviewsVisibleToAuthor { get; internal set; }
         public bool IsDefault { get; private set; }
         public PaperStatus(
             Guid id,
@@ -27,7 +27,7 @@ namespace Attempt6OpenIddict.Conference
 
         public PaperStatus SetName(string name)
         {
-            Name = Check.NotNullOrWhiteSpace(name, nameof(name), PaperStatusConsts.MaxNameLength);
+            Name = Check.NotNullOrWhiteSpace(string.IsNullOrEmpty(name) ? name : name.Trim(), nameof(name), PaperStatusConsts.MaxNameLength);
             return this;
         }
     }

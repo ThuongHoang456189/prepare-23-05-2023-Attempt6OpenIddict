@@ -1,7 +1,10 @@
-﻿namespace Attempt6OpenIddict.Conference
+﻿namespace Attempt6OpenIddict.ConferenceManagement
 {
     public static class ConferenceConsts
     {
+        public const string DefaultSorting = "ShortName asc";
+        public const int MaxResultCount = 50;
+
         public const int MaxFullnameLength = 200;
         public const int MaxShortNameLength = 50;
         public const int MaxCityLength = 100;

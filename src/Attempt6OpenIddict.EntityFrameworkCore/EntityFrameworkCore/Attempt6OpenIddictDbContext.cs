@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Attempt6OpenIddict.ConferenceManagement;
+using Microsoft.EntityFrameworkCore;
+using System;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -53,6 +56,15 @@ public class Attempt6OpenIddictDbContext :
 
     #endregion
 
+    #region Entities from the Sras Conference Management module
+    public DbSet<PaperStatus> PaperStatuses { get; set; }
+    public DbSet<Conference> Conferences { get; set; }
+    public DbSet<ConferenceAccount> ConferenceAccounts { get; set; }
+    public DbSet<Track> Tracks { get; set; }
+    public DbSet<ConferenceRole> ConferenceRoles { get; set; }
+    public DbSet<Incumbent> Incumbents { get; set; }
+    #endregion
+
     public Attempt6OpenIddictDbContext(DbContextOptions<Attempt6OpenIddictDbContext> options)
         : base(options)
     {
@@ -82,5 +94,64 @@ public class Attempt6OpenIddictDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
+
+        builder.Entity<PaperStatus>(b =>
+        {
+            b.ToTable("PaperStatuses", Attempt6OpenIddictConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.Name)
+            .HasMaxLength(PaperStatusConsts.MaxNameLength);
+        });
+
+        builder.Entity<Conference>(b =>
+        {
+            b.ToTable("Conferences", Attempt6OpenIddictConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.Property(x => x.FullName)
+            .HasMaxLength(ConferenceConsts.MaxFullnameLength);
+
+            b.Property(x => x.ShortName)
+            .HasMaxLength(ConferenceConsts.MaxShortNameLength);
+
+            b.Property(x => x.City)
+            .HasMaxLength(ConferenceConsts.MaxCityLength);
+
+            b.Property(x => x.Country)
+            .HasMaxLength(ConferenceConsts.MaxCountryLength);
+        });
+
+        builder.Entity<ConferenceAccount>(b =>
+        {
+            b.ToTable("ConferenceAccounts", Attempt6OpenIddictConsts.DbSchema);
+            b.ConfigureByConvention();
+        });
+
+        builder.Entity<Track>(b =>
+        {
+            b.ToTable("Tracks", Attempt6OpenIddictConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.Property(x => x.Name)
+            .HasMaxLength(TrackConsts.MaxNameLength);
+
+            b.Property(x => x.SubmissionInstruction)
+            .HasMaxLength (TrackConsts.MaxSubmissionInstructionLength);
+        });
+
+        builder.Entity<ConferenceRole>(b =>
+        {
+            b.ToTable("ConferenceRoles", Attempt6OpenIddictConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.Property(x => x.Name)
+            .HasMaxLength(ConferenceRoleConsts.MaxNameLength);
+        });
+
+        builder.Entity<Incumbent>(b =>
+        {
+            b.ToTable("Incumbents", Attempt6OpenIddictConsts.DbSchema);
+            b.ConfigureByConvention();
+        });
     }
 }

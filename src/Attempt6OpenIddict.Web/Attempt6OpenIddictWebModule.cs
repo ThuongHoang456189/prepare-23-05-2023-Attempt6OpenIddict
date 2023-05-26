@@ -44,10 +44,12 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using Attempt6OpenIddict.EntityFrameworkCore;
 
 namespace Attempt6OpenIddict.Web;
 
 [DependsOn(
+    typeof(Attempt6OpenIddictEntityFrameworkCoreModule),
     typeof(Attempt6OpenIddictHttpApiClientModule),
     typeof(Attempt6OpenIddictHttpApiModule),
     typeof(AbpAspNetCoreAuthenticationOpenIdConnectModule),

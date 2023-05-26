@@ -1,4 +1,4 @@
-﻿namespace Attempt6OpenIddict.Conference
+﻿namespace Attempt6OpenIddict.ConferenceManagement
 {
     public static class PaperStatusConsts
     {
